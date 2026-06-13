@@ -50,8 +50,8 @@ os.makedirs(CHECKPOINT_DIR, exist_ok=True)
 
 gc.collect()
 
-df_train = pd.read_csv("train.csv")
-df_dev = pd.read_csv("dev.csv")
+df_train = pd.read_csv("./data/train.csv")
+df_dev = pd.read_csv("./data/dev.csv")
 
 L1_LIST = ["arabic", "mandarin", "hindi", "korean", "spanish", "vietnamese"]
 
@@ -95,6 +95,7 @@ decoder_ctc = build_ctcdecoder(
             )
 
 
+# no need to set blank id because transcript no pad
 ctc_loss = nn.CTCLoss(blank=BLANK_ID, zero_infinity=True)
 optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
 scaler = torch.cuda.amp.GradScaler()

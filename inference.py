@@ -9,7 +9,6 @@ from dataloader import (
     text_to_tensor,
     dict_vocab,
     PAD_ID,
-    BLANK_ID,
     VOCAB_SIZE,
     feature_extractor,
 )
@@ -25,7 +24,7 @@ gc.collect()
 id_to_token = {v: k for k, v in dict_vocab.items()}
 dict_vocab = {"t ": 0, "uw ": 1, "er ": 2, "ah ": 3, "sh ": 4, "ng ": 5, "ow ": 6, "aw ": 7, "aa ": 8, "th ": 9, "ih ": 10, "zh ": 11, "k ": 12, "y ": 13, "l ": 14, "uh ": 15, "ch ": 16, "w ": 17, "b ": 18, "v ": 19, "ao ": 20, "s ": 21, "p ": 22, "iy ": 23, "r ": 24, "eh ": 25, "f ": 26, "n ": 27, "ay ": 28, "oy ": 29, "d ": 30, "g ": 31, "ey ": 32, "err ": 33, "dh ": 34, "ae ": 35, "hh ": 36, "m ": 37, "jh ": 38, "z ": 39, "/": 40, "": 41 }
 
-df_test = pd.read_csv("test.csv")
+df_test = pd.read_csv("./data/test.csv")
 
 decoder_ctc = build_ctcdecoder(
                               labels = list(dict_vocab.keys()),
@@ -50,7 +49,7 @@ all_edges, all_weights = get_graph(
 
 
 
-ckpt_path = f"/home/jovyan/voice-100226/tu/MDD_GL1/checkpoint_alpha10/best_alpha10.pth"
+ckpt_path = f"./checkpoint_alpha10/best_alpha10.pth"
 
 config = Wav2Vec2Config.from_pretrained("facebook/wav2vec2-large-xlsr-53")
 model = GCN_MDD(
@@ -104,6 +103,6 @@ with torch.no_grad():
 
 
 out_df = pd.DataFrame(all_results)
-out_path = f"predictions_gl1_{fmt(alpha)}.csv"
+out_path = f"./predictions_gl1_{fmt(alpha)}.csv"
 out_df.to_csv(out_path, index=False)
 print(f"\nSaved: {out_path}")

@@ -4,11 +4,8 @@ from collections import defaultdict
 import math
 import random
 import numpy as np
-import json
 import librosa
-import ast
 from transformers import Wav2Vec2FeatureExtractor
-import pandas as pd
 
 
 dict_vocab = {"t": 0, "uw": 1, "er": 2, "ah": 3, "sh": 4, "ng": 5, "ow": 6, "aw": 7, "aa": 8, "th": 9, "ih": 10, "zh": 11, "k": 12, "y": 13, "l": 14, "uh": 15, "ch": 16, "w": 17, "b": 18, "v": 19, "ao": 20, "s": 21, "p": 22, "iy": 23, "r": 24, "eh": 25, "f": 26, "n": 27, "ay": 28, "oy": 29, "d": 30, "g": 31, "ey": 32, "err": 33, "dh": 34, "ae": 35, "hh": 36, "m": 37, "jh": 38, "z": 39, "<eps>": 40, "<blank>": 41 }
@@ -32,7 +29,7 @@ class MDD_Dataset(Dataset):
         self.l1         = [str(x).lower() for x in list(data['L1'])]
 
     def __getitem__(self, index):
-        waveform, _ = librosa.load("EN_MDD/WAV/" + self.path[index] + ".wav", sr=16000)
+        waveform, _ = librosa.load("./EN_MDD/WAV/" + self.path[index] + ".wav", sr=16000)
         canonical_ids  = text_to_tensor(self.canonical[index])
         transcript_ids = text_to_tensor(self.transcript[index])
         l1 = self.l1[index]

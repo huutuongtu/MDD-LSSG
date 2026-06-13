@@ -16,7 +16,7 @@ def get_graph(
     weights = {}
 
     for lang in languages:
-        data = json.load(open(f"data_{lang}.json", "r", encoding="utf8"))
+        data = json.load(open(f"./data/data_{lang}.json", "r", encoding="utf8"))
         
         by_i = {}  # i -> list[(j, cnt)]
         for key, value in data.items():
@@ -52,17 +52,3 @@ def get_graph(
         weights[lang] = lang_weights
 
     return edges, weights
-
-
-# edges_all, weights_all = get_graph(l1)
-
-# weights = weights_all['vietnamese']
-# edges = edges_all['vietnamese']
-
-
-# print(weights)
-# print(edges)
-# max_idx = np.argmax(weights) 
-# print("Max weight index:", max_idx)
-# print("Max weight value:", weights[max_idx])
-# print("Corresponding edge:", edges[max_idx])
