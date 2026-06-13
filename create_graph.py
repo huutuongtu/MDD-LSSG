@@ -10,7 +10,6 @@ l1 = ["arabic", "mandarin", "hindi", "korean", "spanish", "vietnamese"]
 def get_graph(
     languages,
     alpha: float = 1.0,
-    renorm_after_topk: bool = True,
 ):
     edges = {}
     weights = {}

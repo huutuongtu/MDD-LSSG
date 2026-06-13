@@ -95,13 +95,14 @@ decoder_ctc = build_ctcdecoder(
             )
 
 
-# no need to set blank id because transcript no pad
+# blank id is not important since we use transcript flat and transcript lengths for CTC loss, but we set it to the last index just in case 
 ctc_loss = nn.CTCLoss(blank=BLANK_ID, zero_infinity=True)
 optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr)
 scaler = torch.cuda.amp.GradScaler()
 min_wer = 100
 
 for epoch in range(args.num_epoch):
+    train_sampler.set_epoch(epoch)
     model.train()
     epoch_losses = []
 

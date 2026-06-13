@@ -54,6 +54,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def collate_fn(batch, pad_id=PAD_ID):
     wavs, canonicals, transcripts, l1s = zip(*batch)
+    assert len(set(l1s)) == 1, f"Mixed-language batch: {set(l1s)}"
     batch_l1 = l1s[0]
     # pad waveforms
     max_wav = max(len(w) for w in wavs)
@@ -111,9 +112,12 @@ class L1GroupedBatchSampler(Sampler[list]):
             self.groups[dataset.l1[idx]].append(idx)
 
         self.l1_list = sorted(list(self.groups.keys()))
+    
+    def set_epoch(self, epoch):
+        self.seed = epoch
 
-    def __iter__(self):
-        rng = random.Random(self.seed)
+    def __iter__(self,):
+        rng = random.Random(1234 + self.seed)
         group_indices = {}
         for l1, idxs in self.groups.items():
             idxs = idxs.copy()
